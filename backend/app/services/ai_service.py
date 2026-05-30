@@ -4,15 +4,27 @@ from app.config import WELLFLOW_API_KEY, WELLFLOW_BASE_URL, WELLFLOW_MODEL
 POSITIVE_KEYWORDS = [
     "рост", "растет", "расширяет", "развитие", "стабильн",
     "усиливает", "поддерж", "спрос", "выручк", "производство",
+    "сильн", "интерес инвесторов", "покупк", "новая позици",
+    "повысили оценку", "целевую цену",
     "growth", "expand", "revenue", "profit", "strong", "positive",
     "record", "beat", "surge", "gain", "rise", "increase",
+    "purchase", "buy", "buys", "bought", "stake", "new position",
+    "opens new position", "upgrade", "upgraded", "outperform",
+    "price target", "bullish", "rally", "innovation", "ai",
+    "artificial intelligence", "partnership", "launch",
 ]
 
 NEGATIVE_KEYWORDS = [
     "снижа", "слаб", "риск", "давлен", "конкурен",
     "затрат", "расход", "марж", "огранич", "предупреж",
+    "доходност", "ставк", "юридич", "регулятор", "волатильн",
+    "понизили оценку",
     "decline", "drop", "fall", "loss", "weak", "miss",
     "concern", "risk", "cut", "layoff", "lawsuit", "fine",
+    "downgrade", "downgraded", "bearish", "sell rating",
+    "probe", "investigation", "antitrust", "treasury yield",
+    "yield approaching", "rates", "5%", "pressure", "volatility",
+    "uncertainty", "tariff", "not be",
 ]
 
 
@@ -27,6 +39,7 @@ def infer_news_impact(news_item: dict) -> str:
 
     text = " ".join([
         news_item.get("title", ""),
+        news_item.get("originalTitle", ""),
         news_item.get("summary", ""),
         news_item.get("impactReason", ""),
     ])

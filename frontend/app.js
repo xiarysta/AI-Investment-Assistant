@@ -1,4 +1,3 @@
-const USE_MOCK_API = false;
 const API_BASE_URL = "http://localhost:8001";
 
 const form = document.querySelector("#search-form");
@@ -22,6 +21,8 @@ const chartPointsCount = document.querySelector("#chart-points-count");
 const resetChartZoomButton = document.querySelector("#reset-chart-zoom");
 
 let interactivePriceChart = null;
+let latestPriceHistory = [];
+let latestCurrency = "";
 
 function setMessage(text, type = "info") {
   message.textContent = text;
@@ -68,33 +69,11 @@ function normalizeTicker(ticker) {
   return ticker.trim().toUpperCase();
 }
 
-function getAvailableTickersText() {
-  return Object.keys(mockStocks).join(", ");
-}
-
-function wait(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 async function analyzeTicker(ticker) {
   const normalizedTicker = normalizeTicker(ticker);
 
   if (!normalizedTicker) {
     throw new Error("Введите тикер компании.");
-  }
-
-  if (USE_MOCK_API) {
-    await wait(500);
-
-    if (!mockStocks[normalizedTicker]) {
-      throw new Error(
-        `Тикер "${normalizedTicker}" не найден в демо-данных. Попробуйте: ${getAvailableTickersText()}.`
-      );
-    }
-
-    return mockStocks[normalizedTicker];
   }
 
   const response = await fetch(`${API_BASE_URL}/api/analyze/${normalizedTicker}`);
@@ -137,7 +116,7 @@ function renderNews(newsItems) {
     title.textContent = newsItem.title || "Без заголовка";
 
     const summary = document.createElement("p");
-    summary.textContent = newsItem.summary || "Краткое описание недоступно.";
+    summary.textContent = newsItem.summary || "Описание новости временно недоступно у источника.";
 
     const reason = document.createElement("p");
     reason.className = "impact-reason";
@@ -413,7 +392,10 @@ function renderResult(data) {
   companyDescription.textContent = data.companyDescription;
   aiAnalysis.textContent = data.aiAnalysis;
 
-  drawPriceChart(data.priceHistory || [], data.currency);
+  latestPriceHistory = data.priceHistory || [];
+  latestCurrency = data.currency || "";
+
+  drawPriceChart(latestPriceHistory, latestCurrency);
   renderNews(data.news || []);
 
   emptyState.classList.add("hidden");
@@ -422,12 +404,7 @@ function renderResult(data) {
 
 window.addEventListener("resize", () => {
   if (!results.classList.contains("hidden") && !window.Chart) {
-    const currentTicker = resultTicker.textContent;
-    const currentData = mockStocks[currentTicker];
-
-    if (USE_MOCK_API && currentData) {
-      drawPriceChart(currentData.priceHistory || [], currentData.currency);
-    }
+    drawFallbackPriceChart(latestPriceHistory, latestCurrency);
   }
 });
 

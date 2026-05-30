@@ -8,46 +8,30 @@
 
 ## Быстрый старт
 
-### 1. Установить зависимости backend
+Теперь проект можно запустить одной командой из корня:
 
 ```bash
-cd backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+python3 run.py
 ```
 
-### 2. Настроить API-ключ (опционально)
+Скрипт сам проверит `backend/venv`, установит зависимости при необходимости и запустит:
 
-Скопируй `.env.example` в `.env` и вставь ключ с [wellflow.dev](https://wellflow.dev/):
+- backend: `http://127.0.0.1:8001`
+- frontend: `http://127.0.0.1:5173/frontend/index.html`
 
-```bash
-cp backend/.env.example backend/.env
-```
+Остановить оба сервера можно через `Ctrl+C`.
+
+Backend получает реальные рыночные данные из Yahoo Finance, а для истории цен может использовать Stooq как резервный источник. Если внешние источники временно недоступны, приложение покажет ошибку внешнего сервиса вместо демо-данных.
+
+### API-ключ для AI (опционально)
+
+Скопируй `backend/.env.example` в `backend/.env` и вставь ключ с [wellflow.dev](https://wellflow.dev/):
 
 ```
 WELLFLOW_API_KEY=твой_ключ
 ```
 
 Без ключа приложение работает в режиме keyword-анализа бесплатно.
-
-### 3. Запустить backend
-
-```bash
-cd backend
-source venv/bin/activate
-uvicorn app.main:app --port 8001 --reload
-```
-
-### 4. Открыть frontend
-
-В отдельном терминале из корня проекта:
-
-```bash
-python3 -m http.server 5173
-```
-
-Открой в браузере: [http://localhost:5173/frontend/index.html](http://localhost:5173/frontend/index.html)
 
 ---
 
