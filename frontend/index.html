@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-инвестиционный ассистент</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">AI-инвестиционный ассистент</p>
+            <h1>Анализ акции по тикеру</h1>
+          </div>
+          <span class="status-pill">Демо</span>
+        </header>
+
+        <form class="search-panel" id="search-form">
+          <label for="ticker-input">Тикер компании</label>
+          <div class="search-row">
+            <input
+              id="ticker-input"
+              value="AAPL"
+              placeholder="AAPL"
+              autocomplete="off"
+            />
+            <button id="submit-button" type="submit">Анализ</button>
+          </div>
+          <div class="examples" aria-label="Примеры тикеров">
+            <button type="button" data-ticker="AAPL">AAPL</button>
+            <button type="button" data-ticker="MSFT">MSFT</button>
+            <button type="button" data-ticker="TSLA">TSLA</button>
+          </div>
+        </form>
+
+        <div class="message hidden" id="message"></div>
+
+        <section class="empty-state" id="empty-state">
+          <h2>Начни с тикера</h2>
+          <p>
+            Введи тикер компании, чтобы увидеть рыночные данные, новости и
+            итоговую AI-аналитику. Пока backend не готов, интерфейс работает на
+            демо-данных: AAPL, MSFT и TSLA.
+          </p>
+        </section>
+
+        <section class="results-grid hidden" id="results">
+          <article class="stock-card">
+            <div>
+              <p class="eyebrow" id="result-ticker">AAPL</p>
+              <h2 id="company-name">Apple Inc.</h2>
+            </div>
+            <div class="price-row">
+              <strong id="stock-price">190.12 USD</strong>
+              <span id="stock-change" class="change-positive">+1.24%</span>
+            </div>
+          </article>
+
+          <section class="panel chart-panel">
+            <div class="section-heading">
+              <div>
+                <h2>Динамика цены</h2>
+                <p class="section-subtitle" id="chart-period">
+                  Последние торговые дни
+                </p>
+              </div>
+              <span id="chart-points-count">0</span>
+            </div>
+            <div class="chart-wrap">
+              <canvas
+                id="price-chart"
+                width="900"
+                height="320"
+                aria-label="График изменения цены акции"
+              ></canvas>
+            </div>
+          </section>
+
+          <article class="panel company-panel">
+            <h2>Компания</h2>
+            <p id="company-description"></p>
+          </article>
+
+          <article class="panel analysis-panel">
+            <h2>AI-анализ</h2>
+            <p id="ai-analysis"></p>
+          </article>
+
+          <section class="panel news-panel">
+            <div class="section-heading">
+              <h2>Новости</h2>
+              <span id="news-count">0</span>
+            </div>
+            <div class="news-list" id="news-list"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="./mockData.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

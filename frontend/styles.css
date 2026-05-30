@@ -1,0 +1,424 @@
+:root {
+  color: #18212f;
+  background: #f3f5f8;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f7f9fc 0%, #edf1f5 100%);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: #146b8c;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 32px;
+}
+
+.workspace {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.topbar h1,
+.panel h2,
+.stock-card h2,
+.empty-state h2,
+.news-card h3 {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.topbar h1 {
+  max-width: 780px;
+  font-size: 42px;
+  line-height: 1.08;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #5b6b7d;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 12px;
+  border: 1px solid #c7d0da;
+  border-radius: 999px;
+  color: #405266;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.search-panel,
+.panel,
+.stock-card,
+.empty-state,
+.message {
+  border: 1px solid #dce3eb;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgba(27, 39, 51, 0.08);
+}
+
+.search-panel {
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.search-panel label {
+  display: block;
+  margin-bottom: 10px;
+  color: #405266;
+  font-weight: 800;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+}
+
+.search-row input {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+  padding: 0 14px;
+  color: #18212f;
+  background: #fbfcfd;
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.search-row input:focus {
+  border-color: #1f7a9f;
+  outline: 3px solid rgba(31, 122, 159, 0.18);
+}
+
+.search-row button,
+.examples button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.search-row button {
+  min-width: 132px;
+  padding: 0 18px;
+  color: #ffffff;
+  background: #146b8c;
+}
+
+.search-row button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.examples button {
+  padding: 0 12px;
+  color: #405266;
+  background: #eef3f6;
+}
+
+.message {
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  color: #405266;
+  font-weight: 700;
+}
+
+.error-message {
+  border-color: #f0b7b7;
+  color: #8f2424;
+  background: #fff5f5;
+}
+
+.empty-state {
+  padding: 28px;
+}
+
+.empty-state p,
+.panel p,
+.news-card p {
+  color: #405266;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 16px;
+}
+
+.stock-card,
+.panel {
+  padding: 20px;
+}
+
+.stock-card {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.stock-card h2 {
+  font-size: 30px;
+}
+
+.price-row {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  text-align: right;
+}
+
+.price-row strong {
+  font-size: 30px;
+}
+
+.change-positive,
+.change-negative {
+  font-weight: 900;
+}
+
+.change-positive {
+  color: #137348;
+}
+
+.change-negative {
+  color: #a83232;
+}
+
+.company-panel {
+  grid-column: 1;
+}
+
+.analysis-panel {
+  grid-column: 2;
+}
+
+.news-panel {
+  grid-column: 1 / -1;
+}
+
+.chart-panel {
+  grid-column: 1 / -1;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.section-heading span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #18212f;
+  font-weight: 900;
+}
+
+.section-subtitle {
+  margin: 4px 0 0;
+  color: #637486;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chart-wrap {
+  width: 100%;
+  min-height: 320px;
+  border: 1px solid #e5ebf1;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fbfcfd;
+}
+
+.chart-wrap canvas {
+  display: block;
+  width: 100%;
+  height: 320px;
+}
+
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 12px;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 260px;
+  border: 1px solid #dce3eb;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fbfcfd;
+}
+
+.news-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #637486;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.impact {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.impact-positive {
+  color: #11663f;
+  background: #e4f6ec;
+}
+
+.impact-negative {
+  color: #922b2b;
+  background: #fdeaea;
+}
+
+.impact-neutral {
+  color: #516172;
+  background: #e9eef3;
+}
+
+.impact-reason {
+  font-weight: 700;
+}
+
+.news-card a {
+  margin-top: auto;
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    padding: 20px;
+  }
+
+  .topbar,
+  .stock-card {
+    display: grid;
+  }
+
+  .results-grid,
+  .news-list {
+    grid-template-columns: 1fr;
+  }
+
+  .company-panel,
+  .analysis-panel,
+  .chart-panel,
+  .news-panel {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .price-row {
+    justify-items: start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    padding: 14px;
+  }
+
+  .topbar h1 {
+    font-size: 32px;
+  }
+
+  .search-row {
+    grid-template-columns: 1fr;
+  }
+
+  .search-row button {
+    width: 100%;
+  }
+
+  .stock-card h2,
+  .price-row strong {
+    font-size: 24px;
+  }
+}
