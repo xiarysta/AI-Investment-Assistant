@@ -310,6 +310,32 @@ a:hover {
   height: 320px;
 }
 
+.chart-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.chart-actions button {
+  min-height: 38px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 14px;
+  color: #ffffff;
+  background: #405266;
+  font-weight: 800;
+}
+
+.chart-actions p {
+  margin: 0;
+  color: #637486;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: right;
+}
+
 .news-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -377,8 +403,13 @@ a:hover {
   }
 
   .topbar,
-  .stock-card {
+  .stock-card,
+  .chart-actions {
     display: grid;
+  }
+
+  .chart-actions p {
+    text-align: left;
   }
 
   .results-grid,

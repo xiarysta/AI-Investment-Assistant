@@ -19,6 +19,9 @@ const newsList = document.querySelector("#news-list");
 const priceChart = document.querySelector("#price-chart");
 const chartPeriod = document.querySelector("#chart-period");
 const chartPointsCount = document.querySelector("#chart-points-count");
+const resetChartZoomButton = document.querySelector("#reset-chart-zoom");
+
+let interactivePriceChart = null;
 
 function setMessage(text, type = "info") {
   message.textContent = text;
@@ -156,7 +159,7 @@ function renderNews(newsItems) {
   });
 }
 
-function drawPriceChart(history, currency) {
+function drawFallbackPriceChart(history, currency) {
   const context = priceChart.getContext("2d");
   const width = priceChart.width;
   const height = priceChart.height;
@@ -270,6 +273,136 @@ function drawPriceChart(history, currency) {
   context.fillText(lastDate, width - padding.right - lastDateWidth, height - 14);
 }
 
+function drawPriceChart(history, currency) {
+  if (!history || history.length < 2) {
+    chartPeriod.textContent = "Недостаточно данных для графика";
+    chartPointsCount.textContent = "0";
+
+    if (interactivePriceChart) {
+      interactivePriceChart.destroy();
+      interactivePriceChart = null;
+    }
+
+    drawFallbackPriceChart(history, currency);
+    return;
+  }
+
+  const firstDate = history[0].date;
+  const lastDate = history[history.length - 1].date;
+  const firstPrice = history[0].price;
+  const lastPrice = history[history.length - 1].price;
+  const lineColor = lastPrice >= firstPrice ? "#137348" : "#a83232";
+
+  chartPeriod.textContent = `${firstDate} - ${lastDate}`;
+  chartPointsCount.textContent = history.length;
+
+  if (!window.Chart) {
+    drawFallbackPriceChart(history, currency);
+    return;
+  }
+
+  if (interactivePriceChart) {
+    interactivePriceChart.destroy();
+  }
+
+  const context = priceChart.getContext("2d");
+  const gradient = context.createLinearGradient(0, 0, 0, priceChart.height);
+  gradient.addColorStop(0, "rgba(20, 107, 140, 0.22)");
+  gradient.addColorStop(1, "rgba(20, 107, 140, 0)");
+
+  interactivePriceChart = new Chart(context, {
+    type: "line",
+    data: {
+      labels: history.map((point) => point.date),
+      datasets: [
+        {
+          label: `Цена, ${currency}`,
+          data: history.map((point) => point.price),
+          borderColor: lineColor,
+          backgroundColor: gradient,
+          borderWidth: 3,
+          pointBackgroundColor: "#ffffff",
+          pointBorderColor: lineColor,
+          pointBorderWidth: 2,
+          pointHoverRadius: 7,
+          pointRadius: 4,
+          fill: true,
+          tension: 0.28
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        intersect: false,
+        mode: "index"
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label(context) {
+              return `Цена: ${formatPrice(context.parsed.y, currency)}`;
+            }
+          }
+        },
+        zoom: {
+          pan: {
+            enabled: true,
+            mode: "x"
+          },
+          zoom: {
+            wheel: {
+              enabled: true
+            },
+            pinch: {
+              enabled: true
+            },
+            drag: {
+              enabled: true,
+              backgroundColor: "rgba(20, 107, 140, 0.12)",
+              borderColor: "rgba(20, 107, 140, 0.45)",
+              borderWidth: 1
+            },
+            mode: "x"
+          },
+          limits: {
+            x: {
+              min: "original",
+              max: "original",
+              minRange: 2
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: "#637486"
+          }
+        },
+        y: {
+          ticks: {
+            color: "#637486",
+            callback(value) {
+              return formatPrice(Number(value), currency);
+            }
+          },
+          grid: {
+            color: "#e5ebf1"
+          }
+        }
+      }
+    }
+  });
+}
+
 function renderResult(data) {
   resultTicker.textContent = data.ticker;
   companyName.textContent = data.companyName;
@@ -288,13 +421,19 @@ function renderResult(data) {
 }
 
 window.addEventListener("resize", () => {
-  if (!results.classList.contains("hidden")) {
+  if (!results.classList.contains("hidden") && !window.Chart) {
     const currentTicker = resultTicker.textContent;
     const currentData = mockStocks[currentTicker];
 
     if (USE_MOCK_API && currentData) {
       drawPriceChart(currentData.priceHistory || [], currentData.currency);
     }
+  }
+});
+
+resetChartZoomButton.addEventListener("click", () => {
+  if (interactivePriceChart && typeof interactivePriceChart.resetZoom === "function") {
+    interactivePriceChart.resetZoom();
   }
 });
 
