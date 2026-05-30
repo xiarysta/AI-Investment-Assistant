@@ -6,6 +6,51 @@
 
 ---
 
+## Быстрый старт
+
+### 1. Установить зависимости backend
+
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 2. Настроить API-ключ (опционально)
+
+Скопируй `.env.example` в `.env` и вставь ключ с [wellflow.dev](https://wellflow.dev/):
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+```
+WELLFLOW_API_KEY=твой_ключ
+```
+
+Без ключа приложение работает в режиме keyword-анализа бесплатно.
+
+### 3. Запустить backend
+
+```bash
+cd backend
+source venv/bin/activate
+uvicorn app.main:app --port 8001 --reload
+```
+
+### 4. Открыть frontend
+
+В отдельном терминале из корня проекта:
+
+```bash
+python3 -m http.server 5173
+```
+
+Открой в браузере: [http://localhost:5173/frontend/index.html](http://localhost:5173/frontend/index.html)
+
+---
+
 ## 1. Цель проекта
 
 Разработать веб-приложение, которое позволяет пользователю:

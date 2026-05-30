@@ -1,5 +1,5 @@
-const USE_MOCK_API = true;
-const API_BASE_URL = "http://localhost:8000";
+const USE_MOCK_API = false;
+const API_BASE_URL = "http://localhost:8001";
 
 const form = document.querySelector("#search-form");
 const tickerInput = document.querySelector("#ticker-input");
